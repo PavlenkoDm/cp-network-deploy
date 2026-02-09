@@ -1,4 +1,4 @@
-###cloud vars
+###cloud vars==========================================
 variable "token" {
   type        = string
   description = "OAuth-token; https://cloud.yandex.ru/docs/iam/concepts/authorization/oauth-token"
@@ -78,7 +78,7 @@ variable "private_vm_name" {
 
 ### Tech block =====================================================================
 variable "image_family" {
-  type = string
+  type    = string
   default = "ubuntu-2204-lts"
 }
 
@@ -86,6 +86,17 @@ variable "ssh_public_key" {
   type        = string
   default     = ""
   description = "Public SSH key (type ed25519)"
+}
+
+### Storage block ===============================================================
+variable "bucket_name" {
+  type        = string
+  description = "Unique bucket name for Object Storage"
+}
+
+variable "picture_path" {
+  type        = string
+  description = "Path to the picture file on local machine"
 }
 
 
