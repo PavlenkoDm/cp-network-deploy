@@ -10,6 +10,25 @@ resource "yandex_vpc_subnet" "public" {
   v4_cidr_blocks = [var.public_subnet_cidr]
 }
 
+resource "yandex_vpc_security_group" "allow_all_inbound" {
+  name        = "allow-all-inbound"
+  description = "Allow all inbound traffic from Internet"
+  network_id  = yandex_vpc_network.vpc.id
+
+  ingress {
+    protocol       = "ANY"
+    description    = "Allow all inbound"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    protocol       = "ANY"
+    description    = "Allow all outbound"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 ###NAT
 resource "yandex_compute_instance" "nat_instance" {
   name        = "nat-instance"
@@ -40,32 +59,32 @@ resource "yandex_compute_instance" "nat_instance" {
 }
 
 ###Public VM
-resource "yandex_compute_instance" "public_vm" {
-  name        = var.public_vm_name
-  platform_id = "standard-v1"
-  zone        = var.default_zone
+# resource "yandex_compute_instance" "public_vm" {
+#   name        = var.public_vm_name
+#   platform_id = "standard-v1"
+#   zone        = var.default_zone
 
-  resources {
-    cores  = 2
-    memory = 2
-  }
+#   resources {
+#     cores  = 2
+#     memory = 2
+#   }
 
-  boot_disk {
-    initialize_params {
-      image_id = data.yandex_compute_image.ubuntu.id
-      size     = 20
-    }
-  }
+#   boot_disk {
+#     initialize_params {
+#       image_id = data.yandex_compute_image.ubuntu.id
+#       size     = 20
+#     }
+#   }
 
-  network_interface {
-    subnet_id = yandex_vpc_subnet.public.id
-    nat       = true
-  }
+#   network_interface {
+#     subnet_id = yandex_vpc_subnet.public.id
+#     nat       = true
+#   }
 
-  metadata = {
-    ssh-keys = "ubuntu:${var.ssh_public_key}"
-  }
-}
+#   metadata = {
+#     ssh-keys = "ubuntu:${var.ssh_public_key}"
+#   }
+# }
 
 ### Data source
 data "yandex_compute_image" "ubuntu" {
@@ -94,29 +113,29 @@ resource "yandex_vpc_subnet" "private" {
 }
 
 ### Private VM
-resource "yandex_compute_instance" "private_vm" {
-  name        = var.private_vm_name
-  platform_id = "standard-v1"
-  zone        = var.default_zone
+# resource "yandex_compute_instance" "private_vm" {
+#   name        = var.private_vm_name
+#   platform_id = "standard-v1"
+#   zone        = var.default_zone
 
-  resources {
-    cores  = 2
-    memory = 2
-  }
+#   resources {
+#     cores  = 2
+#     memory = 2
+#   }
 
-  boot_disk {
-    initialize_params {
-      image_id = data.yandex_compute_image.ubuntu.id
-      size     = 20
-    }
-  }
+#   boot_disk {
+#     initialize_params {
+#       image_id = data.yandex_compute_image.ubuntu.id
+#       size     = 20
+#     }
+#   }
 
-  network_interface {
-    subnet_id = yandex_vpc_subnet.private.id
-    nat       = false
-  }
+#   network_interface {
+#     subnet_id = yandex_vpc_subnet.private.id
+#     nat       = false
+#   }
 
-  metadata = {
-    ssh-keys = "ubuntu:${var.ssh_public_key}"
-  }
-}
+#   metadata = {
+#     ssh-keys = "ubuntu:${var.ssh_public_key}"
+#   }
+# }

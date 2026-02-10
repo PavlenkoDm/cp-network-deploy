@@ -1,0 +1,84 @@
+#cloud-config
+
+package_update: true
+
+packages:
+  - curl
+
+write_files:
+  - path: /var/www/html/index.html
+    permissions: "0644"
+    owner: www-data:www-data
+    content: |
+      <!DOCTYPE html>
+      <html lang="ru">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Netology LAMP Instance</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  min-height: 100vh;
+                  margin: 0;
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  color: white;
+              }
+              .container {
+                  text-align: center;
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 40px;
+                  border-radius: 20px;
+                  backdrop-filter: blur(10px);
+                  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+              }
+              h1 {
+                  margin-bottom: 30px;
+                  font-size: 2.5em;
+              }
+              img {
+                  max-width: 800px;
+                  width: 90%;
+                  height: auto;
+                  border-radius: 15px;
+                  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+              }
+              .info {
+                  margin-top: 20px;
+                  font-size: 1.2em;
+              }
+              .hostname {
+                  font-weight: bold;
+                  color: #ffd700;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <h1>DevOps Course</h1>
+              <img src="${picture_url}" alt="W3WH">
+              <div class="info">
+                  <p>Сервер: <span class="hostname" id="hostname">Loading...</span></p>
+                  <p>Instance Group + Network Load Balancer</p>
+              </div>
+          </div>
+          <script>
+              fetch('http://169.254.169.254/latest/meta-data/hostname')
+                  .then(response => response.text())
+                  .then(hostname => {
+                      document.getElementById('hostname').textContent = hostname;
+                  })
+                  .catch(() => {
+                      document.getElementById('hostname').textContent = window.location.hostname;
+                  });
+          </script>
+      </body>
+      </html>
+
+runcmd:
+  - systemctl restart apache2
+  - systemctl enable apache2

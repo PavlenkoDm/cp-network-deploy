@@ -99,6 +99,13 @@ variable "picture_path" {
   description = "Path to the picture file on local machine"
 }
 
+### Compute block ===============================================================
+variable "lamp_image_id" {
+  type        = string
+  default     = "fd827b91d99psvq5fjit"
+  description = "LAMP image ID from Yandex Cloud"
+}
+
 
 
 

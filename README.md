@@ -1,9 +1,17 @@
 # Задание 1:
 
-![Creating resources](./img/hw-network-deploy-1.jpg)
+![Bucket creation](./img/hw-nd-2-1.jpg)
 
-![Resources in Yandex Cloud Web UI](./img/hw-network-deploy-2.jpg)
+![Storage sa creation](./img/hw-nd-2-2.jpg)
 
-![Testing public vm](./img/hw-network-deploy-3.jpg)
+![Instance group](./img/hw-nd-2-3.jpg)
 
-![Testing private vm](./img/hw-network-deploy-4.jpg)
+![Testing vm in ig](./img/hw-nd-2-4.jpg)
+
+![Testing second vm in ig](./img/hw-nd-2-5.jpg)
+
+![Load balancer created](./img/hw-nd-2-6.jpg)
+
+![Load balancer in web UI](./img/hw-nd-2-7.jpg)
+
+![Load balancer testing](./img/hw-nd-2-8.jpg)
